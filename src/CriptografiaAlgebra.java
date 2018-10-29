@@ -11,6 +11,11 @@ public class CriptografiaAlgebra {
 
 	public CriptografiaAlgebra(String palavra) {
 		palavra = palavra.replaceAll(" ", "");
+		palavra = palavra.replace("áÁâÂ", "A");
+		palavra = palavra.replace("éÉêÊ", "E");
+		palavra = palavra.replace("íÍîÎ", "I");
+		palavra = palavra.replace("óÓôÔ", "O");
+		palavra = palavra.replace("úÚûÛ", "U");
 		if (palavra.length() % 2 != 0) {
 			String ultima = palavra.substring(palavra.length() - 1);
 			palavra += ultima;
