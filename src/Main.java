@@ -5,7 +5,7 @@ public class Main {
 	public static void main(String[] args) {
 		String palavra = lerString("Digite a palavra ou frase: ");
 		CriptografiaAlgebra crip = new CriptografiaAlgebra(palavra);
-		System.out.println(crip.getCriptografia());
+		System.out.println(crip.getDescriptografia());
 	}
 	
 	public static String lerString(String msg) {

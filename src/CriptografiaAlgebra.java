@@ -1,5 +1,6 @@
 public class CriptografiaAlgebra {
 	private static final int NUMERO_DE_LETRAS = 26;
+	private static final int MODULO = -1;
 
 	private String palavra;
 	private int[][] matriz = { { 2, 5 }, { 1, 3 } };
@@ -9,10 +10,7 @@ public class CriptografiaAlgebra {
 	private int[] criptografia;
 
 	public CriptografiaAlgebra(String palavra) {
-		this.palavra = palavra.toUpperCase();
-	}
-
-	private void setNumerosDaTabela() {
+		palavra = palavra.replaceAll(" ", "");
 		if (palavra.length() % 2 != 0) {
 			String ultima = palavra.substring(palavra.length() - 1);
 			palavra += ultima;
@@ -21,16 +19,33 @@ public class CriptografiaAlgebra {
 			this.palavra = palavra.toUpperCase();
 		}
 		this.criptografia = new int[palavra.length()];
-		for (int i = 0; i < palavra.length(); i++) {
-			for (int j = 0; j < letras.length; j++) {
-				if (palavra.charAt(i) == letras[j])
-					criptografia[i] = j;
-			}
-		}
 	}
 
-	private void setNumeroCriptografados() {
-		setNumerosDaTabela();
+	public int[][] getMatriz() {
+		return matriz;
+	}
+
+	public void setMatriz(int[][] matriz) {
+		this.matriz = matriz;
+	}
+
+	public int[][] getMatrizInversa() {
+		return matrizInversa;
+	}
+
+	public void setMatrizInversa(int[][] matrizInversa) {
+		this.matrizInversa = matrizInversa;
+	}
+
+	public String getCriptografia() {
+		for (int i = 0; i < palavra.length(); i++) {
+			for (int j = 0; j < letras.length; j++) {
+				if (palavra.charAt(i) == letras[j]) {
+					criptografia[i] = j;
+					break;
+				}
+			}
+		}
 		int numero1 = 0;
 		int numero2 = 1;
 		for (int i = 1; i < criptografia.length; i += 2) {
@@ -42,23 +57,24 @@ public class CriptografiaAlgebra {
 			numero2 += 2;
 		}
 		for (int i = 0; i < criptografia.length; i++) {
-			if (criptografia[i] > NUMERO_DE_LETRAS) {
+			if (criptografia[i] >= NUMERO_DE_LETRAS) {
 				criptografia[i] = criptografia[i] % NUMERO_DE_LETRAS;
+			} else if (criptografia[i] < 0 && criptografia[i] % NUMERO_DE_LETRAS != 0) {
+				criptografia[i] = NUMERO_DE_LETRAS - ((criptografia[i] * MODULO) % NUMERO_DE_LETRAS);
+			} else if (criptografia[i] < 0 && criptografia[i] % NUMERO_DE_LETRAS == 0) {
+				criptografia[i] = 0;
 			}
 		}
-	}
-
-	public String getCriptografia() {
-		setNumeroCriptografados();
 		StringBuilder palavra = new StringBuilder();
 		for (int i : criptografia) {
 			palavra.append(letras[i]);
 		}
 		return palavra.toString();
 	}
-	
+
 	public String getDescriptografia() {
-		this.matriz = this.matrizInversa;
-		return getCriptografia();
+		setMatriz(getMatrizInversa());
+		String palavra = getCriptografia();
+		return palavra;
 	}
 }
