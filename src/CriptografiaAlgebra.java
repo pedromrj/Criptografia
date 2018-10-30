@@ -8,14 +8,14 @@ public class CriptografiaAlgebra {
 	private char[] letras = { 'Z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
 			'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y' };
 	private int[] criptografia;
-
-	public CriptografiaAlgebra(String palavra) {
+	
+	public void setPalavra(String palavra) {
 		palavra = palavra.replaceAll(" ", "");
-		palavra = palavra.replace("·¡‚¬", "A");
-		palavra = palavra.replace("È…Í ", "E");
-		palavra = palavra.replace("ÌÕÓŒ", "I");
-		palavra = palavra.replace("Û”Ù‘", "O");
-		palavra = palavra.replace("˙⁄˚€", "U");
+		palavra = palavra.replaceAll("[·¡‚¬„√]", "A");
+		palavra = palavra.replaceAll("[È…Í ]", "E");
+		palavra = palavra.replaceAll("[ÌÕÓŒ]", "I");
+		palavra = palavra.replaceAll("[Û”Ù‘ı’]", "O");
+		palavra = palavra.replaceAll("[˙⁄˚€]", "U");
 		if (palavra.length() % 2 != 0) {
 			String ultima = palavra.substring(palavra.length() - 1);
 			palavra += ultima;
@@ -23,7 +23,6 @@ public class CriptografiaAlgebra {
 		} else {
 			this.palavra = palavra.toUpperCase();
 		}
-		this.criptografia = new int[palavra.length()];
 	}
 
 	public int[][] getMatriz() {
@@ -38,11 +37,17 @@ public class CriptografiaAlgebra {
 		return matrizInversa;
 	}
 
+	public void setCriptografia(int[] criptografia) {
+		this.criptografia = criptografia;
+	}
+
 	public void setMatrizInversa(int[][] matrizInversa) {
 		this.matrizInversa = matrizInversa;
 	}
 
 	public String getCriptografia() {
+		int[] tamanho = new int[palavra.length()];
+		setCriptografia(tamanho);
 		for (int i = 0; i < palavra.length(); i++) {
 			for (int j = 0; j < letras.length; j++) {
 				if (palavra.charAt(i) == letras[j]) {
